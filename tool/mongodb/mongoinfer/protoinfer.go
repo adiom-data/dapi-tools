@@ -95,6 +95,7 @@ func BsonTypeToProto(builder *strings.Builder, prefix string, t *BsonType) error
 		case bson.TypeObjectID:
 			builder.WriteString("string")
 		case bson.TypeBinary:
+			// TODO: support bytes better
 			builder.WriteString("MongoBinary")
 		case bson.TypeBoolean:
 			builder.WriteString("bool")

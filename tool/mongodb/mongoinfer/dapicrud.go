@@ -52,7 +52,7 @@ func (g *DapiCrud) GenerateDapiCfg() string {
 
 	for _, t := range g.ts {
 		// TODO: remove assumption _id is an object id
-		// TODO: support create/update
+		// TODO: support bytes better
 		name := strcase.ToCamel(t.Name)
 		builder.WriteString(fmt.Sprintf("      List%v:\n", name))
 		builder.WriteString(fmt.Sprintf("        database: %v\n", t.Database))

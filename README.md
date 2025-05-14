@@ -2,6 +2,12 @@
 
 ## Mongoinfer
 
+Basic tool to bootstrap from a MongoDB database. Tweaking the output may be necessary. Generates protobufs and a Dapi config with some CRUD operations. A separate step is needed to build a descriptors file from the protobufs using a tool like `buf`.
+
+You can see an example of the output in the `example` directory.
+
+### Quick Start
+
 The example below assumes you have a mongodb instance running on localhost with your data. Running it will overwrite the example `yml` and `proto` in the `example` directory.
 
 ```
