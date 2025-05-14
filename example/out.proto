@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package com.example;
+
+import "google/protobuf/timestamp.proto";
+
+message MongoBinary {
+  int32 _subtype = 1;
+  bytes _data = 2;
+}
+
+message TestMoviesAwards {
+  int32 nominations = 1;
+  string text = 2;
+  int32 wins = 3;
+}
+
+message TestMoviesTomatoesViewer {
+  int32 meter = 1;
+  int32 numReviews = 2;
+  double rating = 3;
+}
+
+message TestMoviesTomatoesCritic {
+  int32 meter = 1;
+  int32 numReviews = 2;
+  double rating = 3;
+}
+
+message TestMoviesTomatoes {
+  string boxOffice = 1;
+  string consensus = 2;
+  TestMoviesTomatoesCritic critic = 3;
+  google.protobuf.Timestamp dvd = 4;
+  int32 fresh = 5;
+  google.protobuf.Timestamp lastUpdated = 6;
+  string production = 7;
+  int32 rotten = 8;
+  TestMoviesTomatoesViewer viewer = 9;
+  string website = 10;
+}
+
+message TestMoviesImdb {
+  int32 id = 1;
+  double rating = 2;
+  int32 votes = 3;
+}
+
+message TestMovies {
+  string _id = 1;
+  TestMoviesAwards awards = 2;
+  repeated string cast = 3;
+  repeated string countries = 4;
+  repeated string directors = 5;
+  string fullplot = 6;
+  repeated string genres = 7;
+  TestMoviesImdb imdb = 8;
+  repeated string languages = 9;
+  string lastupdated = 10;
+  int32 metacritic = 11;
+  int32 num_mflix_comments = 12;
+  string plot = 13;
+  string poster = 14;
+  string rated = 15;
+  google.protobuf.Timestamp released = 16;
+  int32 runtime = 17;
+  string title = 18;
+  TestMoviesTomatoes tomatoes = 19;
+  string type = 20;
+  repeated string writers = 21;
+  int32 year = 22;
+}
+
+service ExampleService {
+  rpc ListTestMovies(ListTestMoviesRequest) returns (ListTestMoviesResponse);
+  rpc GetTestMovies(GetTestMoviesRequest) returns (GetTestMoviesResponse);
+  rpc CreateTestMovies(CreateTestMoviesRequest) returns (CreateTestMoviesResponse);
+  rpc UpdateTestMovies(UpdateTestMoviesRequest) returns (UpdateTestMoviesResponse);
+  rpc DeleteTestMovies(DeleteTestMoviesRequest) returns (DeleteTestMoviesResponse);
+}
+
+message ListTestMoviesRequest {
+  string cursor = 1;
+  int32 limit = 2;
+}
+
+message ListTestMoviesResponse {
+  repeated TestMovies data = 1;
+  string next_cursor = 2;
+  int32 limit = 3;
+}
+
+message GetTestMoviesRequest {
+  string _id = 1;
+}
+
+message GetTestMoviesResponse {
+  TestMovies data = 1;
+}
+
+message CreateTestMoviesRequest {
+  TestMovies data = 1;
+}
+
+message CreateTestMoviesResponse {
+  string _id = 1;
+}
+
+message UpdateTestMoviesRequest {
+  TestMovies data = 1;
+}
+
+message UpdateTestMoviesResponse {}
+
+message DeleteTestMoviesRequest {
+  string _id = 1;
+}
+
+message DeleteTestMoviesResponse {}
+
