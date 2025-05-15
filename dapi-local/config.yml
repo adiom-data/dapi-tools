@@ -1,0 +1,51 @@
+server:
+  cleartext: true
+  hostport: :8090
+  shutdowntimeout: 10s
+  reflect: true
+  health: true
+  descriptors: out.pb
+interceptors:
+  - name: Auth
+    config:
+      token: hello
+  - name: MongoDB
+    config:
+      url: mongodb://mongodb:27017
+services:
+  com.example.ExampleService:
+    endpoints:
+      ListTestMovies:
+        unauthenticated: true
+        database: test
+        collection: movies
+        options: 'options.FindOptions {Limit: req.limit}'
+        paginatedfind:
+          filter: '{}'
+          cursor: 'req.cursor'
+      GetTestMovies:
+        unauthenticated: true
+        database: test
+        collection: movies
+        mapresponse: '{ "data": resp }'
+        findone:
+          filter: '{ "_id": ObjectID(req._id) }'
+      CreateTestMovies:
+        auth: 'claims.role == "admin"'
+        database: test
+        collection: movies
+        insertone:
+          document: '{ ?"awards": req.?data.?awards, ?"cast": req.?data.?cast, ?"countries": req.?data.?countries, ?"directors": req.?data.?directors, ?"fullplot": req.?data.?fullplot, ?"genres": req.?data.?genres, ?"imdb": req.?data.?imdb, ?"languages": req.?data.?languages, ?"lastupdated": req.?data.?lastupdated, ?"metacritic": req.?data.?metacritic, ?"num_mflix_comments": req.?data.?num_mflix_comments, ?"plot": req.?data.?plot, ?"poster": req.?data.?poster, ?"rated": req.?data.?rated, ?"released": req.?data.?released, ?"runtime": req.?data.?runtime, ?"title": req.?data.?title, ?"tomatoes": req.?data.?tomatoes, ?"type": req.?data.?type, ?"writers": req.?data.?writers, ?"year": req.?data.?year}'
+      UpdateTestMovies:
+        auth: 'claims.role == "admin"'
+        database: test
+        collection: movies
+        replaceone:
+          filter: '{ "_id": ObjectID(req.data._id) }'
+          replacement: '{ ?"awards": req.?data.?awards, ?"cast": req.?data.?cast, ?"countries": req.?data.?countries, ?"directors": req.?data.?directors, ?"fullplot": req.?data.?fullplot, ?"genres": req.?data.?genres, ?"imdb": req.?data.?imdb, ?"languages": req.?data.?languages, ?"lastupdated": req.?data.?lastupdated, ?"metacritic": req.?data.?metacritic, ?"num_mflix_comments": req.?data.?num_mflix_comments, ?"plot": req.?data.?plot, ?"poster": req.?data.?poster, ?"rated": req.?data.?rated, ?"released": req.?data.?released, ?"runtime": req.?data.?runtime, ?"title": req.?data.?title, ?"tomatoes": req.?data.?tomatoes, ?"type": req.?data.?type, ?"writers": req.?data.?writers, ?"year": req.?data.?year}'
+      DeleteTestMovies:
+        auth: 'claims.role == "admin"'
+        database: test
+        collection: movies
+        deleteone:
+          filter: '{ "_id": ObjectID(req._id) }'
