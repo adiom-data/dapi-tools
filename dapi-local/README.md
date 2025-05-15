@@ -139,6 +139,27 @@ If you are exposing this server directly to web clients, you may want to enable 
 * `exposedheaders` string list
   * Any application specific headers cross-domain clients expect to receive.
 
+#### Otel
+
+Emit traces and metrics to an Otel collector. By default it uses the well known ports on localhost (port 4317 for gRPC or 4318 for HTTP).
+
+* `servicename` string
+  * The name of the service to use
+* `trace`
+  * `disabled` bool
+    * Disable tracing
+  * `endpointurl` string (e.g. `http://localhost:4317`, `http://localhost:4318`)
+    * URL for the otel collector
+  * `http` bool
+    * Use HTTP instead of gRPC.
+* `metric`
+  * `disabled` bool
+    * Disable metrics
+  * `endpointurl` string (e.g. `http://localhost:4317`, `http://localhost:4318`)
+    * URL for the otel collector
+  * `http` bool
+    * Use HTTP instead of gRPC.
+
 #### Auth
 
 The Auth interceptor performs authorization on a passed `Authorization` HTTP header. It looks for values of the form `Bearer <JWT>` and validates the JWT. Use only one of the configuration fields below.
