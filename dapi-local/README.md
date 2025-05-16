@@ -122,7 +122,9 @@ Currently Available:
 * `http` - This is just HTTP middleware with no gRPC context.
   * [CORS](#cors)
 * `grpc` - This is what you'd normally understand as a gRPC interceptor.
+  * [Otel](#otel)
   * [Auth](#auth)
+  * [Validator](#validator)
   * [MongoDB](#mongodb)
   * [Postgres](#postgres)
 * `impl` - This is a wrapper for the underlying implementation of an endpoint.
@@ -184,6 +186,27 @@ The Auth interceptor performs authorization on a passed `Authorization` HTTP hea
 
 * `streamclientauth` string
   * A CEL expression for checking authorization for client and bidi streaming endpoints only. It has access to `claims` and `headers` and must return a `bool`.
+
+#### Validator
+
+The Validator interceptor performs request validation. Can provide a list.
+
+Example
+```
+validators:
+  - expr: 'req.foo != "bar"'
+  - expr: 'req.foo != "baz"'
+```
+
+##### Endpoints
+
+* `validators` list
+  * `expr` string
+    * **Required**. A CEL expression for checking the request. It has access to `req`, `claims`, and `headers` and must return a `bool`. Note that access to `claims` depends on `Validator` being listed before `Auth`. Evaluating to false means short-circuiting the request and returning the corresponding status code.
+  * `code` int | string
+    * gRPC status code to return if `expr` evaluates to `false`. By default this is code `3` (invalid_argument). See https://grpc.io/docs/guides/status-codes/.
+  * `message` string
+    * Message to return as part of the error
 
 #### MongoDB
 
